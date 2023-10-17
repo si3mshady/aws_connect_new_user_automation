@@ -6,9 +6,6 @@ import boto3
 s3_client = boto3.client('s3')
 connect_client = boto3.client('connect')
 
-instance_id =  "1a60da9e-2e91-47ec-980a-29b437893c21"
-routing_profile_id = "9f97c09b-1acd-4517-9084-be028242e392"
-
 
 def lambda_handler(event, context):
     # Get the S3 bucket and object key from the S3 event
