@@ -13,6 +13,24 @@ resource "aws_s3_bucket" "csv_bucket" {
   bucket = var.bucket
 }
 
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.csv_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        },
+        Action = "*",
+        Resource = "${aws_s3_bucket.csv_bucket.arn}/*"
+      }
+    ]
+  })
+}
+
 # # Define the Lambda function resource
 resource "aws_lambda_function" "csv_to_json" {
   function_name = "csv-to-json"
@@ -50,7 +68,9 @@ resource "aws_iam_policy" "lambda" {
         Action = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:PutLogEvents",
+          "s3:GetObject" 
+
         ]
         Effect = "Allow"
         Resource = "*"
@@ -90,6 +110,8 @@ resource "aws_lambda_permission" "allow_bucket" {
   principal     = "s3.amazonaws.com"
   source_arn    = aws_s3_bucket.csv_bucket.arn
 }
+
+
 
 
 #You will get the following error (below) if you do not create the "aws_lambda_permission" "allow_bucket" #resource
