@@ -6,8 +6,8 @@ import boto3
 s3_client = boto3.client('s3')
 connect_client = boto3.client('connect')
 
-instance_id =  "1a60da9e-2e91-47ec-980a-29b437893c21"
-routing_profile_id = "9f97c09b-1acd-4517-9084-be028242e392"
+# instance_id =  "1a60da9e-2e91-47ec-980a-29b437893c21"
+# routing_profile_id = "9f97c09b-1acd-4517-9084-be028242e392"
 
 
 def lambda_handler(event, context):
@@ -25,22 +25,23 @@ def lambda_handler(event, context):
     for row in csv.reader(csv_data):
         # Use strip() to remove white spaces from each value
         cleaned_row = [value.strip(' "\'') for value in row if value.strip(' "\'')]
+        print(cleaned_row)
 
-        if len(cleaned_row) != 5:
-            print("Invalid number of values in row.")
-            continue
+        if len(cleaned_row) == 6:
+            action, username, password, routing_profile_id, instance_id, user_id = cleaned_row
 
-        action, username, password, routing_profile_id, instance_id = cleaned_row
-
-        if action == 'create':
-            create_connect_user(username, password, routing_profile_id, instance_id)
-        elif action == 'delete':
-            # delete_connect_user(user_id, instance_id)
-            pass
+            if action == 'create':
+                create_connect_user(username, password, routing_profile_id, instance_id)
+                
+        if len(cleaned_row) == 3:
+            action, user_id, instance_id = cleaned_row
+            if action == 'delete':
+                delete_connect_user(user_id, instance_id)
+            
         else:
             print(f"Invalid action: {action}")
 
-def create_connect_user(username, password, routing_profile_id=routing_profile_id, instance_id=instance_id):
+def create_connect_user(username, password, routing_profile_id, instance_id):
     try:
         response = connect_client.create_user(
             Username=username,
