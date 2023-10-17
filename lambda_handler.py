@@ -16,8 +16,6 @@ def lambda_handler(event, context):
     response = s3_client.get_object(Bucket=s3_bucket, Key=s3_key)
     csv_data = response['Body'].read().decode('utf-8').splitlines()
 
-
-# create,"lester","password456","9f97c09b-1acd-4517-9084-be028242e392", "1a60da9e-2e91-47ec-980a-29b437893c21"
     
     for row in csv.reader(csv_data):
         # Use strip() to remove white spaces from each value
@@ -38,7 +36,7 @@ def lambda_handler(event, context):
         else:
             print(f"Invalid action: {action}")
 
-def create_connect_user(username, password, routing_profile_id=routing_profile_id, instance_id=instance_id):
+def create_connect_user(username, password, routing_profile_id, instance_id):
     try:
         response = connect_client.create_user(
             Username=username,
