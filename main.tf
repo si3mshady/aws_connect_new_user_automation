@@ -34,8 +34,8 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 # # Define the Lambda function resource
 resource "aws_lambda_function" "csv_to_json" {
   function_name = "csv-to-json"
-  filename = "lambda_function_payload.zip"
-  source_code_hash = filebase64sha256("lambda_function_payload.zip")
+  filename = "lambda_payload.zip"
+  source_code_hash = filebase64sha256("lambda_payload.zip")
   handler = "lambda_handler.lambda_handler"
   role = aws_iam_role.lambda.arn
   runtime = "python3.9"
@@ -69,7 +69,9 @@ resource "aws_iam_policy" "lambda" {
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents",
-          "s3:GetObject" 
+          "s3:GetObject",
+          "connect:*"
+          
 
         ]
         Effect = "Allow"
