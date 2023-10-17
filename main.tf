@@ -115,10 +115,3 @@ resource "aws_lambda_permission" "allow_bucket" {
 
 
 
-
-#You will get the following error (below) if you do not create the "aws_lambda_permission" "allow_bucket" #resource
-
-# │ Error: creating S3 Bucket (the-cloud-shepherd-csv-linkedin) Notification: operation error S3: 
-# PutBucketNotificationConfiguration, https response error StatusCode:
-#  400, RequestID: 1A4BC98NYG2308CR, HostID: TxPJRuOlSiXoWQ0Q5VODHZbFCJ5re41YLEqhgB7cFqWPqadM5c3Rop3713dYajmg5x4C+zIFNJ0=,
-#  api error InvalidArgument: Unable to validate the following destination configurations
