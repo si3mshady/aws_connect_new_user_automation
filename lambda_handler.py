@@ -19,13 +19,24 @@ def lambda_handler(event, context):
     response = s3_client.get_object(Bucket=s3_bucket, Key=s3_key)
     csv_data = response['Body'].read().decode('utf-8').splitlines()
 
+
+# create,"lester","password456","9f97c09b-1acd-4517-9084-be028242e392", "1a60da9e-2e91-47ec-980a-29b437893c21"
+    
     for row in csv.reader(csv_data):
-        action, username, password, routing_profile_id, instance_id, user_id = row
+        # Use strip() to remove white spaces from each value
+        cleaned_row = [value.strip(' "\'') for value in row if value.strip(' "\'')]
+
+        if len(cleaned_row) != 5:
+            print("Invalid number of values in row.")
+            continue
+
+        action, username, password, routing_profile_id, instance_id = cleaned_row
 
         if action == 'create':
             create_connect_user(username, password, routing_profile_id, instance_id)
         elif action == 'delete':
-            delete_connect_user(user_id, instance_id)
+            # delete_connect_user(user_id, instance_id)
+            pass
         else:
             print(f"Invalid action: {action}")
 
