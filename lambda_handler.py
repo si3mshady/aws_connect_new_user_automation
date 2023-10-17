@@ -77,10 +77,12 @@ def delete_connect_user(user_id, instance_id):
 #aws connect list-users --instance_id
 
 
-#format of csv for adding users
-# Action,Username,Password,RoutingProfileId,InstanceId
-# create,user1,password123,profile-id-1,instance-id-1,
-# create,user2,password456,profile-id-2,instance-id-1,
+# #format of csv for adding users
+# Action,Username,Password,RoutingProfileId,InstanceId,UserId
+# "create","alex","Passw0rd!","9f97c09b-1acd-4517-9084-be028242e392", "1a60da9e-2e91-47ec-980a-29b437893c21","_",
+# "create","dennis","Passw0rd!","9f97c09b-1acd-4517-9084-be028242e392", "1a60da9e-2e91-47ec-980a-29b437893c21","_",
+# "create","jubei","Passw0rd!","9f97c09b-1acd-4517-9084-be028242e392", "1a60da9e-2e91-47ec-980a-29b437893c21","_",
+# "create","lester","password456","9f97c09b-1acd-4517-9084-be028242e392", "1a60da9e-2e91-47ec-980a-29b437893c21","_",
 
 
 #format of csv for deleting users
